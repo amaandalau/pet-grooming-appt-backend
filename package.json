@@ -1,0 +1,19 @@
+{
+  "name": "pet-grooming-appt",
+  "version": "1.0.0",
+  "description": "### **Brief Overview** #### The pet grooming appointment booking system is an application designed to facilitate the scheduling and management of pet grooming services. It serves as a centralized platform connecting pet owners, groomers and administrators to streamline the entire appointment booking process.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.4.3",
+    "sequelize": "^6.32.1"
+  }
+}
