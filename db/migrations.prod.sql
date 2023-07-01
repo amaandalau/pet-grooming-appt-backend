@@ -17,7 +17,7 @@ USE pet_grooming_appt_booking_system_prod;
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('owner', 'groomer') NOT NULL,
