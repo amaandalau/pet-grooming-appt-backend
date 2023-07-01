@@ -13,7 +13,7 @@ docker run -name=mysql-local-server -p 3306:2206 -e MYSQL_ROOT_PASSWORD=12345 -d
 */
 
 CREATE DATABASE pet_grooming_appt_booking_system_dev;
-USER pet_grooming_appt_booking_system_dev;
+USE pet_grooming_appt_booking_system_dev;
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
@@ -42,7 +42,7 @@ CREATE TABLE pets(
 CREATE TABLE appointments(
     id INT NOT NULL AUTO_INCREMENT,
     date TIMESTAMP NOT NULL,
-    special_instructions VARCHAR(255)
+    special_instructions VARCHAR(255),
     status ENUM('pending', 'confirmed', 'in-progress', 'completed', 'cancelled') NOT NULL,
     owner_id INT NOT NULL,
     pet_id INT NOT NULL,
