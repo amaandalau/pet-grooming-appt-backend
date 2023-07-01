@@ -41,7 +41,7 @@ CREATE TABLE pets(
 
 CREATE TABLE appointments(
     id INT NOT NULL AUTO_INCREMENT,
-    date TIMESTAMP NOT NULL,
+    date DATE NOT NULL,
     special_instructions VARCHAR(255),
     status ENUM('pending', 'confirmed', 'in-progress', 'completed', 'cancelled') NOT NULL,
     owner_id INT NOT NULL,
