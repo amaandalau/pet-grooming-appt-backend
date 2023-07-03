@@ -9,16 +9,6 @@ const ApptService = sequelize.define(
             autoIncrement: true,
             field: "id"
         },
-        services: {
-            type: DataTypes.ENUM(
-                'Bath & Shampoo',
-                'Cut & Style',
-                'Nail Trimming',
-                'Brush & De-Shed',
-                'Ear Cleaning'),
-            allowNull: false,
-            field: "services"
-        },
         apptID: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -28,6 +18,15 @@ const ApptService = sequelize.define(
             },
             field: "appt_id"
         }, 
+        serviceID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: "services",
+                key: "id"
+            },
+            field: "service_id"
+        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: true,
@@ -40,7 +39,7 @@ const ApptService = sequelize.define(
         }
     },
     {
-        tableName: "appointment_services",
+        tableName: "appt_services",
         timestamps: false
     }
 )
