@@ -72,14 +72,13 @@ CREATE TABLE appointments(
     pet_id INT NOT NULL,
     groomer_id INT NOT NULL,
     timeslot_id INT NOT NULL,
-    appt_services_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (owner_id) REFERENCES users(id),
     FOREIGN KEY (pet_id) REFERENCES pets(id),
     FOREIGN KEY (groomer_id) REFERENCES users(id),
-    FOREIGN KEY (timeslot_id) REFERENCES timeslots(id),
+    FOREIGN KEY (timeslot_id) REFERENCES timeslots(id)
 );
 
 CREATE TABLE appt_services(
