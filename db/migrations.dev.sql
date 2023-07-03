@@ -44,8 +44,18 @@ CREATE TABLE pets(
 
 CREATE TABLE timeslots(
     id INT NOT NULL AUTO_INCREMENT,
-    slots TIMESTAMP NOT NULL,
+    timeslots TIMESTAMP NOT NULL,
     status ENUM('Available', 'Not Available', 'Out-of-office') NOT NULL,
+    groomer_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(id),
+    FOREIGN KEY (groomer_id) REFERENCES users(id)
+);
+
+CREATE TABLE services(
+    id INT NOT NULL AUTO_INCREMENT,
+    services VARCHAR(255) NOT NULL,
     groomer_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -62,23 +72,25 @@ CREATE TABLE appointments(
     pet_id INT NOT NULL,
     groomer_id INT NOT NULL,
     timeslot_id INT NOT NULL,
+    appt_services_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (owner_id) REFERENCES users(id),
     FOREIGN KEY (pet_id) REFERENCES pets(id),
     FOREIGN KEY (groomer_id) REFERENCES users(id),
-    FOREIGN KEY (timeslot_id) REFERENCES timeslots(id)
+    FOREIGN KEY (timeslot_id) REFERENCES timeslots(id),
 );
 
 CREATE TABLE appt_services(
     id INT NOT NULL AUTO_INCREMENT,
-    services ENUM('Bath & Shampoo', 'Cut & Style', 'Nail Trimming', 'Brush & De-Shed', 'Ear Cleaning') NOT NULL,
     appt_id INT NOT NULL,
+    service_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (appt_id) REFERENCES appointments(id)
+    FOREIGN KEY (appt_id) REFERENCES appointments(id),
+    FOREIGN KEY (service_id) REFERENCES services(id)
 );
 
 CREATE TABLE reviews(
