@@ -9,10 +9,10 @@ const Timeslot = sequelize.define(
             autoIncrement: true,
             field: "id"
         },
-        slots: {
+        timeslots: {
             type: DataTypes.DATE,
             allowNull: false,
-            field: "slots"
+            field: "timeslots"
         }, 
         status: {
             type: DataTypes.ENUM('Available', 'Not Available', 'Out-of-office'),
