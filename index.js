@@ -34,6 +34,23 @@ app.use(morganConfig)
 const sequelize = require("./config/db.config.js")
 
 // Define routes here
+const authRoutes = require("./routes/auth.routes.js")
+const usersRoutes = require("./routes/users.routes.js")
+const petsRoutes = require("./routes/pets.routes.js")
+const timeslotsRoutes = require("./routes/timeslots.routes.js")
+const servicesRoutes = require("./routes/services.routes.js")
+const appointmentsRoutes = require("./routes/appointments.routes.js")
+const apptServicesRoutes = require("./routes/appt_services.routes.js")
+const reviewsRoutes = require("./routes/reviews.routes.js")
+
+app.use("/auth", authRoutes)
+app.use("/users", usersRoutes)
+app.use("/pets", petsRoutes)
+app.use("/timeslots/", timeslotsRoutes)
+app.use("/services", servicesRoutes)
+app.use("/appointments", appointmentsRoutes)
+app.use("/appt-services", apptServicesRoutes)
+app.use("/reviews", reviewsRoutes)
 
 // Health
 app.get("/", (req, res) => {
