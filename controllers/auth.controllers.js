@@ -42,7 +42,7 @@ async function register(req, res) {
         }
 
         // Send email to user with verify link
-        await mergeDefaults.messages.create(process.env.MAILGUN_DOMAIN, data)
+        await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
 
         // Email Sent Success Message
         res.status(200).json({
