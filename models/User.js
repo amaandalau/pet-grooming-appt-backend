@@ -31,7 +31,7 @@ const User = sequelize.define(
             field: "is_verified"
         },
         role: {
-            type: DataTypes.ENUM('owner', 'groomer'),
+            type: DataTypes.ENUM('owner', 'groomer', 'admin'),
             allowNull: false,
             field: "role"
         },
