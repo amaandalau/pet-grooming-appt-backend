@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 const sequelize = require("../config/db.config.js")
 
 const Pet = sequelize.define(
-    "Pet", {
+    "Pets", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -60,7 +60,7 @@ const Pet = sequelize.define(
         }
     }, 
     {
-        tableName: pets,
+        tableName: "pets",
         timestamps: false
     }
 )
