@@ -7,7 +7,7 @@ router.get('/', apptServicesController.getAllApptServices)
 
 router.get('/:apptServiceID', apptServicesController.getApptServiceByID)
 
-router.create(
+router.post(
     '/', 
     verifyToken,
     checkRole(['admin', 'owner']),
