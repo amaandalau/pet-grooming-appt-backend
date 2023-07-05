@@ -15,6 +15,6 @@ router.post('/forgotPwd', authController.forgotPassword)
 
 router.post('/resetPwd', authController.resetPassword)
 
-router.post('/changePwd', authController.changePassword)
+router.post('/changePwd', verifyToken, authController.changePassword)
 
 module.exports = router

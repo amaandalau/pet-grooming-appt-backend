@@ -255,6 +255,9 @@ async function changePassword(req, res) {
         const user = await User.findOne({
             where: {
                 email: req.user.email
+            },
+            attributes: {
+                include: 'password'
             }
         })
 
