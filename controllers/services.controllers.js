@@ -27,7 +27,7 @@ async function getServicesByID(req, res) {
 async function createService(req, res) {
     // Only groomers can create services
     try {
-        if (req.user.role !== "groomer") throw "Unauthorized"
+        if (req.user.role == "owner" ) throw "Unauthorized"
 
         const service = await Service.create({
             ...req.body
@@ -44,9 +44,11 @@ async function updateService(req, res) {
     // Only groomer can update services
     // Only groomers can update their OWN services
     try {
-        if (req.user.role !== "groomer") throw "Unauthorized"
+        // if (req.user.role !== "groomer") throw "Unauthorized"
 
-        if (user.id !== req.user.id) {
+        const service = await Service.findByPk(parseInt(req.params.serviceID))
+
+        if (req.user.role !== 'admin' && service.groomerID !== req.user.id) {
             throw "Cannot update services that aren't yours =.="
         } else {
             const updatedService = await Service.update(
@@ -73,7 +75,7 @@ async function deleteService(req, res) {
     try {
         const service = await Service.findByPk(parseInt(req.params.serviceID))
 
-        if (service.groomerID !== req.user.id) throw "Can't delete other ppl's services"
+        if (req.user.role !== 'admin' && service.groomerID !== req.user.id) throw "Can't delete other ppl's services"
 
         // Delete service by ID
         const deletedService = await Service.destroy({
