@@ -4,14 +4,27 @@
   "description": "### **Brief Overview** #### The pet grooming appointment booking system is an application designed to facilitate the scheduling and management of pet grooming services. It serves as a centralized platform connecting pet owners, groomers and administrators to streamline the entire appointment booking process.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "prod": "NODE_ENV=production nodemon index.js",
+    "build:dev": "docker build -t pet-grooming-appt-system-api-dev:1.0 -f Dockerfile.dev .",
+    "build:prod": "docker build -t pet-grooming-appt-system-api-prod:1.0 -f Dockerfile.prod",
+    "run:dev": "docker run -d -p 8080:8080 --name pet-grooming-appt-system-api-dev pet-grooming-appt-system-api-dev:1.0",
+    "run:prod": "docker run -d -p 8080:8080 --name pet-grooming-appt-system-api-prod pet-grooming-appt-system-api-prod:1.0",
+    "clean:dev": "docker stop pet-grooming-appt-system-api-dev && docker rm pet-grooming-appt-system-dev",
+    "clean:prod": "docker stop pet-grooming-appt-system-api-prod && docker rm pet-grooming-appt-system-prod"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mailgun.js": "^9.1.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.4.3",
     "sequelize": "^6.32.1"
