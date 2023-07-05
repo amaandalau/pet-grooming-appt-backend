@@ -27,7 +27,18 @@ async function getUserByID(req, res) {
 
 async function createUser(req, res) {
     try {
+        if (req.user.role !== "admin") {
+            throw "Unauthorized"
+        } 
+
+        const hashedPassword = hashPassword(req.body.password)
         
+        const user = await User.create({
+            ...req.body,
+            password: hashedPassword
+        })
+
+        res.json(user)
     } catch (error) {
         res.status(500).json({error: error})
     }
@@ -38,7 +49,8 @@ async function updateUser(req, res) {
     try {
         const user = await User.findByPk(parseInt(req.params.userID))
 
-        if(user.id !== req.user.id) {
+        if(req.user.role !== 'admin' && user.id !== req.user.id) {
+            console.log('User role', req.user.role)
             throw "You can only update your own profile"
         } else {
             const hashedPassword = hashPassword(req.body.password)
@@ -66,9 +78,9 @@ async function deleteUser(req, res) {
     try {
         const user = await User.findByPk(parseInt(req.params.userID))
         
-        if(user.id !== req.user.role) {
+        if(user.id !== req.user.id) {
             throw "You can only delete your own profile"
-        } else {
+        } else  {
             const user = await User.destroy({
                 where: {
                     id: parseInt(req.params.userID)
