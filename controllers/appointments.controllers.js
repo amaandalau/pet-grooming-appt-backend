@@ -26,7 +26,7 @@ async function getApptByID(req, res) {
 
 async function createAppt(req, res) {
     try {
-        if (req.user.role !== "owner") throw "Unauthorized"
+        // if (req.user.role !== "owner") throw "Unauthorized"
 
         const appt = await Appointment.create({
             ...req.body
@@ -40,13 +40,31 @@ async function createAppt(req, res) {
 }
 
 async function updateAppt(req, res) {
+    // Check if user is owner or groomer
+    // If user is groomer - can only update to confirmed / in-progress / completed
+    // If user is owner - can only update to cancel
+
     try {
         const appt = await Appointment.findByPk(parseInt(req.params.apptID))
 
-        // Groomer and owner cam update appointment
-        if (appt.ownerID !== req.user.id && appt.groomerID !== groomerID) {
-            throw "Unauthorized"
-        } else {
+        // Groomer and owner can update appointment
+        if (req.user.role !== 'admin' && appt.ownerID !== req.user.id && appt.groomerID !== req.user.id) throw "Unauthorized"
+
+        if (req.user.role === 'groomer') {
+
+            if (req.body.status !== 'confirmed' && req.body.status !== 'in-progress' && req.body.status !== 'completed') {
+                throw 'Invalid status update'
+            }
+        }
+        
+        if (req.user.role === 'owner') {
+            
+            if(req.body.status !== 'cancelled') {
+                console.log('Invalid status update')
+                throw "Invalid status update"
+            }
+        }
+
             const updatedAppt = await Appointment.update(
                 req.body,
                 {
@@ -58,7 +76,7 @@ async function updateAppt(req, res) {
 
             // Send updated appointment as response
             res.json(updatedAppt)
-        }
+        
     } catch (error) {
         res.status(500).json({error: error})
     }
@@ -69,7 +87,7 @@ async function deleteAppt(req, res) {
     try {
         const appt = await Appointment.findByPk(parseInt(req.params.apptID))
 
-        if(appt.ownerID !== req.user.id) {
+        if(req.user.role !== 'admin' && appt.ownerID !== req.user.id) {
             throw "Not your appointment - cannot delete"
         } else {
             // Delete appointment by iD
