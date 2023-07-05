@@ -24,7 +24,7 @@ router.put(
 router.delete(
     '/:userID',
     verifyToken,
-    // checkRole(['admin', 'owner', 'groomer']),
+    checkRole(['admin', 'owner', 'groomer']),
     usersController.deleteUser
 )
 
