@@ -261,14 +261,9 @@ async function changePassword(req, res) {
             }
         })
 
-        console.log("checkpoint 2")
-
         if(!user) throw "User not found"
 
-        console.log("checkpoint 3")
-
         // Check if current password matches 
-        // if(!comparePassword(currentPassword, user.password)) throw "Current password is incorrect"
         const matchingPwd = comparePassword(currentPassword, user.password)
         if(!matchingPwd) throw "Current password is incorrect"
 

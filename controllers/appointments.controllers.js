@@ -26,7 +26,6 @@ async function getApptByID(req, res) {
 
 async function createAppt(req, res) {
     try {
-        // if (req.user.role !== "owner") throw "Unauthorized"
 
         const appt = await Appointment.create({
             ...req.body

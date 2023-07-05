@@ -44,7 +44,6 @@ async function createApptService(req, res) {
 async function updateApptService(req, res) {
     // Only groomer can update services
     try {
-        // if (req.user.role !== "groomer") throw "Unauthorized"
 
         const updatedApptService = await AppointmentServices.update(
             req.body,

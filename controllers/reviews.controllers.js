@@ -42,8 +42,7 @@ async function getReviewByID(req, res) {
 async function createReview(req, res) {
     // Only owners can create review
     try {
-        // if (req.user.role !== "owner") throw "Unauthorized"
-
+        
         const review = await Review.create({
             ...req.body
         })

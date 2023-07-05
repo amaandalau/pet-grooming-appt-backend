@@ -44,7 +44,6 @@ async function updateService(req, res) {
     // Only groomer can update services
     // Only groomers can update their OWN services
     try {
-        // if (req.user.role !== "groomer") throw "Unauthorized"
 
         const service = await Service.findByPk(parseInt(req.params.serviceID))
 
