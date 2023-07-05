@@ -42,7 +42,7 @@ async function getReviewByID(req, res) {
 async function createReview(req, res) {
     // Only owners can create review
     try {
-        if (req.user.role !== "owner") throw "Unauthorized"
+        // if (req.user.role !== "owner") throw "Unauthorized"
 
         const review = await Review.create({
             ...req.body
@@ -60,7 +60,7 @@ async function updateReview(req, res) {
     try {
         const review = await Review.findByPk(parseInt(req.params.reviewID))
 
-        if (review.ownerID !== req.user.id) throw "Cannot update other people's reviews"
+        if (req.user.role !== 'admin' && review.ownerID !== req.user.id) throw "Cannot update other people's reviews"
 
         const updatedReview = await Review.update(
             {
@@ -85,7 +85,7 @@ async function deleteReview(req, res) {
     try {
         const review = await Review.findByPk(parseInt(req.params.reviewID))
 
-        if(review.ownerID !== req.user.id) throw "Cannot delete other people's reviews"
+        if(req.user.role !== 'admin' && review.ownerID !== req.user.id) throw "Cannot delete other people's reviews"
 
         const deletedReview = await Review.destroy({
             where: {
