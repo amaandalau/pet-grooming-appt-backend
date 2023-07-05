@@ -3,13 +3,14 @@ const router = express.Router()
 const timeslotController = require("../controllers/timeslots.controllers.js")
 const { verifyToken, checkRole } = require('../middlewares/auth.middleware.js')
 
-router.get('/timeslots', timeslotController.getAllTimeslots)
+router.get('/', timeslotController.getAllTimeslots)
 
-// Get specific groomer's (by id) specific timeslot id
-router.get('/users/:userID/timeslots/:timeslotID', timeslotController.getTimeslotByID)
+router.get('/users/:userID', timeslotController.getAllTimeslotsByGroomerID)
+
+router.get('/:timeslotID', timeslotController.getTimeslotByID)
 
 router.post(
-    '/timeslots', 
+    '/', 
     verifyToken,
     checkRole(['admin', 'groomer']),
     timeslotController.createTimeslot
