@@ -13,6 +13,20 @@ async function getAllReviews(req, res) {
 
 }
 
+async function getAllReviewsByGroomerID(req, res) {
+    try {
+        const reviews = await Review.findAll({
+            where: {
+                groomerID: req.params.userID
+            }
+        })
+
+        res.json(reviews)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
 async function getReviewByID(req, res) {
     try {
         // Find review by ID
@@ -60,7 +74,7 @@ async function updateReview(req, res) {
         )
 
         // Send updated review as response
-        res.json(updateReview)
+        res.json(updatedReview)
     } catch (error) {
         res.status(500).json({error: error})
     }
@@ -87,7 +101,8 @@ async function deleteReview(req, res) {
 }
 
 module.exports = {
-    getAllReviews,  
+    getAllReviews,
+    getAllReviewsByGroomerID,
     getReviewByID,
     createReview,
     updateReview,
