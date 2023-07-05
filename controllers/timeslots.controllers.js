@@ -58,7 +58,7 @@ async function updateTimeslot(req, res) {
     try {
         const timeslot = await Timeslot.findByPk(parseInt(req.params.timeslotID))
 
-        if(timeslot.groomerID !== req.user.id) {
+        if(req.user.role !== 'admin' && timeslot.groomerID !== req.user.id) {
             throw "You can only update your own timeslots"
         } else {
             const updatedTimeslot = await Timeslot.update(
@@ -83,7 +83,7 @@ async function deleteTimeslot(req, res) {
     try {
         const timeslot = await Timeslot.findByPk(parseInt(req.params.timeslotID))
 
-        if(timeslot.groomerID !== req.user.id) {
+        if(req.user.role !== 'admin' && timeslot.groomerID !== req.user.id) {
             throw "You can only delete your own timeslot"
         } else {
             // Delete timeslot by ID
