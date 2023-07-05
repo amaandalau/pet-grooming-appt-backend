@@ -1,9 +1,9 @@
-const Pet = require("../models/Pet")
+const Pet = require("../models/Pet.js")
 
 async function getAllPets(req, res) {
     try {
         // Find all pets
-        const pets = Pet.findAll()
+        const pets = await Pet.findAll()
 
         // Send all pets as response
         res.json(pets)
@@ -13,10 +13,24 @@ async function getAllPets(req, res) {
     }
 }
 
+async function getAllPetsByOwnerID(req, res) {
+    try {
+        const pets = await Pet.findAll({
+            where: {
+                ownerID: req.params.userID
+            }
+        })
+
+        res.json(pets)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
 async function getPetByID(req, res) {
     try {
         // Find pet by ID
-        const pet = Pet.findByPk(parseInt(req.body.petID))
+        const pet = await Pet.findByPk(parseInt(req.params.petID))
 
         // Send pet as response
         res.json(pet)
@@ -31,7 +45,7 @@ async function createPet(req, res) {
         if (req.user.role !== "owner") throw "Unauthorized"
 
         const pet = await Pet.create({
-            ...req.body
+            ...req.body,
         })
 
         // Send created pet as response 
@@ -93,6 +107,7 @@ async function deletePet(req, res) {
 module.exports = {
     getAllPets,
     getPetByID,
+    getAllPetsByOwnerID,
     createPet,
     updatePet,
     deletePet
