@@ -5,12 +5,12 @@ const { verifyToken, checkRole } = require("../middlewares/auth.middleware.js")
 
 router.get('/', petController.getAllPets)
 
-// router.get('/users/:userID/', petController.getPetsByOwnerID)
+router.get('/users/:userID/', petController.getAllPetsByOwnerID)
 
 router.get('/:petID', petController.getPetByID)
 
 router.post(
-    '/pets', 
+    '/', 
     verifyToken,
     checkRole(['admin', 'owner']),
     petController.createPet
