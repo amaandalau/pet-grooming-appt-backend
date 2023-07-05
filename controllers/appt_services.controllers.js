@@ -1,3 +1,4 @@
+const Appointment = require("../models/Appointment.js")
 const AppointmentServices = require("../models/AppointmentService.js")
 
 async function getAllApptServices(req, res) {
@@ -27,7 +28,6 @@ async function getApptServiceByID(req, res) {
 async function createApptService(req, res) {
     // Only groomer can create services
     try {
-        if (req.user.role !== "groomer") throw "Unauthorized"
 
         const apptService = await AppointmentServices.create({
             ...req.body
@@ -44,7 +44,7 @@ async function createApptService(req, res) {
 async function updateApptService(req, res) {
     // Only groomer can update services
     try {
-        if (req.user.role !== "groomer") throw "Unauthorized"
+        // if (req.user.role !== "groomer") throw "Unauthorized"
 
         const updatedApptService = await AppointmentServices.update(
             req.body,
@@ -64,10 +64,13 @@ async function updateApptService(req, res) {
 }
 
 async function deleteApptService(req, res) {
-    // Only groomer can delete services
     try {
-        // const apptService = await AppointmentServices(parseInt(req.params.apptServiceID))
+        
+        const apptService = await AppointmentServices.findByPk(parseInt(req.params.apptServiceID))
+        const appt = await Appointment.findByPk(parseInt(apptService.apptID))
 
+        if(req.user.role !== 'admin' && req.user.id !== appt.ownerID) throw 'Cannot delete'
+       
         const deletedApptService = await AppointmentServices.destroy({
             where: {
                 id: parseInt(req.params.apptServiceID)
@@ -76,7 +79,7 @@ async function deleteApptService(req, res) {
 
         // Send deleted appointment service as response
         res.json(deletedApptService)
-
+        
     } catch (error) {
         res.status(500).json({error: error})
     }
