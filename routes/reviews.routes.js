@@ -5,6 +5,8 @@ const { verifyToken, checkRole } = require('../middlewares/auth.middleware.js')
 
 router.get('/', reviewsController.getAllReviews)
 
+router.get('/users/:userID', reviewsController.getAllReviewsByGroomerID)
+
 router.get('/:reviewID', reviewsController.getReviewByID)
 
 router.post(
