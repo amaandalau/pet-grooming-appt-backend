@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const authController = require('../controllers/auth.controllers.js')
+const { verifyToken } = require('../middlewares/auth.middleware.js')
+
+router.get("/me", verifyToken, authController.me)
 
 router.post('/register', authController.register)
 
@@ -12,6 +15,6 @@ router.post('/forgotPwd', authController.forgotPassword)
 
 router.post('/resetPwd', authController.resetPassword)
 
-router.post('changePwd', authController.changePassword)
+router.post('/changePwd', authController.changePassword)
 
 module.exports = router
