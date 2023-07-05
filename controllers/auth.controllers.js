@@ -3,6 +3,14 @@ const User = require("../models/User.js")
 const { hashPassword, comparePassword } = require("../utils/bcrypt.utils.js")
 const { mg } = require("../utils/mailgun.utils.js")
 
+async function me (req, res) {
+    try {
+        res.json(req.user)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
 async function register(req, res) {
     try {
         // Check if user with the same email already exists
@@ -109,13 +117,17 @@ async function login(req, res) {
         const { email, password } = req.body
 
         // Validate user input
-        if(!email && !password) throw "Email and password are required"
+        if(!email || !password) throw "Email and password are required"
 
+        console.log("checkpoint 1")
         const user = await User.findOne({
             where: {
                 email: email
-            }
+            },
+            attributes: { include: "password"}
         })
+
+        console.log("checkpoint 2")
 
         // Check if user exists
         if(!user) {
@@ -124,9 +136,13 @@ async function login(req, res) {
         }
 
         // Validate if user's password matched
+        console.log(`Check user:`, user)
+        console.log(`Check user pwd:`, user.password)
         const matchingPwd = comparePassword(password, user.password)
 
         if(!matchingPwd) throw "Invalid login credentials"
+
+        console.log("checkpoint 3")
 
         // Generate JWT
         const token = jwt.sign({
@@ -173,8 +189,15 @@ async function forgotPassword(req, res) {
         )
 
         // Send email to the user with the reset token
+        const data = {
+            from: "mailgun@" + process.env.MAILGUN_DOMAIN,
+            to: email,
+            subject: "Reset Your Password",
+            text: `Token to reset password: ${token}`
+        }
         
         // Send email to user
+        await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
 
         // Send success response
         res.status(200).json({
@@ -201,7 +224,9 @@ async function resetPassword(req, res) {
 
         // Update user password in database
         await User.update(
-            { password: hashedPassword},
+            { 
+                password: hashedPassword
+            },
             {
                 where: {
                     id: decoded.id
@@ -219,14 +244,32 @@ async function resetPassword(req, res) {
 // User wants to update their own password on their own terms
 async function changePassword(req, res) {
     try {
+    
         const { currentPassword, newPassword } = req.body
 
         if(!currentPassword) throw "Current password is required"
         if(!newPassword) throw "New password is required"
 
-        // Check if current password matches 
-        if(!comparePassword(currentPassword, user.password)) throw "Current password is incorrect"
+        console.log("checkpoint 1")
 
+        const user = await User.findOne({
+            where: {
+                email: req.user.email
+            }
+        })
+
+        console.log("checkpoint 2")
+
+        if(!user) throw "User not found"
+
+        console.log("checkpoint 3")
+
+        // Check if current password matches 
+        // if(!comparePassword(currentPassword, user.password)) throw "Current password is incorrect"
+        const matchingPwd = comparePassword(currentPassword, user.password)
+        if(!matchingPwd) throw "Current password is incorrect"
+
+        console.log("checkpoint 4")        
         const hashedPassword = hashPassword(newPassword)
 
         // Update user password
@@ -247,6 +290,7 @@ async function changePassword(req, res) {
 }
 
 module.exports = {
+    me,
     register,
     verifyEmail,
     login,
