@@ -42,7 +42,6 @@ async function getPetByID(req, res) {
 
 async function createPet(req, res) {
     try {
-        if (req.user.role !== "owner") throw "Unauthorized"
 
         const pet = await Pet.create({
             ...req.body,
@@ -62,7 +61,7 @@ async function updatePet(req, res) {
         // Check if is pet owner
         const pet = await Pet.findByPk(parseInt(req.params.petID))
 
-        if(pet.ownerID !== req.user.id) {
+        if(req.user.role !== 'admin' && pet.ownerID !== req.user.id) {
             throw "Not your pet, cannot update"
         } else {
             const updatedPet = await Pet.update(
