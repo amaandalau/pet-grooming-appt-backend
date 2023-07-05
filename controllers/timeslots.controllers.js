@@ -12,6 +12,20 @@ async function getAllTimeslots(req, res) {
     }
 }
 
+async function getAllTimeslotsByGroomerID(req, res) {
+    try {
+        const timeslots = await Timeslot.findAll({
+            where: {
+                groomerID: req.params.userID
+            }
+        })
+
+        res.json(timeslots)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
 async function getTimeslotByID(req, res) {
      try {
         // Find timeslots by ID
@@ -89,6 +103,7 @@ async function deleteTimeslot(req, res) {
 
 module.exports = {
     getAllTimeslots,
+    getAllTimeslotsByGroomerID,
     getTimeslotByID,
     createTimeslot,
     updateTimeslot,
