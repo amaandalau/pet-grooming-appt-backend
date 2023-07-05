@@ -86,7 +86,7 @@ async function deletePet(req, res) {
     try {
         const pet = await Pet.findByPk(parseInt(req.params.petID))
 
-        if(pet.ownerID !== req.user.id) {
+        if(req.user.role !== 'admin' && pet.ownerID !== req.user.id) {
             throw "Not your pet - cannot delete"
         } else {
             const deletedPet = await Pet.destroy({
