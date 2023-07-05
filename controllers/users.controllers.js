@@ -78,7 +78,7 @@ async function deleteUser(req, res) {
     try {
         const user = await User.findByPk(parseInt(req.params.userID))
         
-        if(user.id !== req.user.id) {
+        if(req.user.role !== 'admin' && user.id !== req.user.id) {
             throw "You can only delete your own profile"
         } else  {
             const user = await User.destroy({
