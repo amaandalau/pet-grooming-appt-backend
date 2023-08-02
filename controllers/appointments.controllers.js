@@ -24,12 +24,29 @@ async function getApptByID(req, res) {
     }
 }
 
+async function getApptByPetID(req, res) {
+    try {
+        const appointments = await Appointment.findAll({
+            where: {
+                petID: req.params.petID
+            }
+        })
+
+        res.json(appointments)
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+}
+
 async function createAppt(req, res) {
     try {
 
-        const appt = await Appointment.create({
-            ...req.body
-        })
+        // const appt = await Appointment.create({
+        //     ...req.body
+        // })
+        const { timeslotID, ...appointmentData } = req.body;
+        appointmentData.timeslotID = 1
+        const appt = await Appointment.create(appointmentData)
 
         // Send created appointment as user
         res.json(appt)
@@ -49,20 +66,20 @@ async function updateAppt(req, res) {
         // Groomer and owner can update appointment
         if (req.user.role !== 'admin' && appt.ownerID !== req.user.id && appt.groomerID !== req.user.id) throw "Unauthorized"
 
-        if (req.user.role === 'groomer') {
+        // if (req.user.role === 'groomer') {
 
-            if (req.body.status !== 'confirmed' && req.body.status !== 'in-progress' && req.body.status !== 'completed') {
-                throw 'Invalid status update'
-            }
-        }
+        //     if (req.body.status !== 'confirmed' && req.body.status !== 'in-progress' && req.body.status !== 'completed') {
+        //         throw 'Invalid status update'
+        //     }
+        // }
         
-        if (req.user.role === 'owner') {
+        // if (req.user.role === 'owner') {
             
-            if(req.body.status !== 'cancelled') {
-                console.log('Invalid status update')
-                throw "Invalid status update"
-            }
-        }
+        //     if(req.body.status !== 'cancelled') {
+        //         console.log('Invalid status update')
+        //         throw "Invalid status update"
+        //     }
+        // }
 
             const updatedAppt = await Appointment.update(
                 req.body,
@@ -107,6 +124,7 @@ async function deleteAppt(req, res) {
 module.exports = {
     getAllAppointments,
     getApptByID,
+    getApptByPetID,
     createAppt,
     updateAppt,
     deleteAppt
