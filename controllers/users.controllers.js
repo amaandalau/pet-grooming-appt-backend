@@ -53,11 +53,11 @@ async function updateUser(req, res) {
             console.log('User role', req.user.role)
             throw "You can only update your own profile"
         } else {
-            const hashedPassword = hashPassword(req.body.password)
+            // const hashedPassword = hashPassword(req.body.password)
             const updatedUser = await User.update(
                 {
                     ...req.body,
-                    password: hashedPassword
+                    // password: hashedPassword
                 },
                 {
                     where: {
