@@ -7,6 +7,8 @@ router.get('/', apptController.getAllAppointments)
 
 router.get('/:apptID', apptController.getApptByID)
 
+router.get('/pet/:petID', apptController.getApptByPetID)
+
 router.post(
     '/', 
     verifyToken,
