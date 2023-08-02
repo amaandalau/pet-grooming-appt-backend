@@ -10,9 +10,11 @@
     "prod": "NODE_ENV=production nodemon index.js",
     "build:dev": "docker build -t pet-grooming-appt-system-api-dev:1.0 -f Dockerfile.dev .",
     "build:prod": "docker build -t pet-grooming-appt-system-api-prod:1.0 -f Dockerfile.prod",
+    "build:gcrdev": "docker buildx build --platform linux/amd64 -t pet-grooming-appt-system-api-dev:1.0 -f Dockerfile.dev . --load",
+    "build:gcrprod": "docker buildx build --platform linux/amd64 -t pet-grooming-appt-system-api-prod:1.0 -f Dockerfile.prod . --load",
     "run:dev": "docker run -d -p 8080:8080 --name pet-grooming-appt-system-api-dev pet-grooming-appt-system-api-dev:1.0",
     "run:prod": "docker run -d -p 8080:8080 --name pet-grooming-appt-system-api-prod pet-grooming-appt-system-api-prod:1.0",
-    "clean:dev": "docker stop pet-grooming-appt-system-api-dev && docker rm pet-grooming-appt-system-dev",
+    "clean:dev": "docker stop pet-grooming-appt-system-api-dev && docker rm pet-grooming-appt-system-api-dev",
     "clean:prod": "docker stop pet-grooming-appt-system-api-prod && docker rm pet-grooming-appt-system-prod"
   },
   "keywords": [],
@@ -20,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "form-data": "^4.0.0",

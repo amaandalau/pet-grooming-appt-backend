@@ -1,6 +1,10 @@
 const express = require("express")
+const cors = require("cors")
 const app = express()
 const morgan = require("morgan")
+
+// Enable CORS for all routes
+app.use(cors())
 
 // Load environment variables. See .env file for available variables
 // This should be done before loading variables from process.env
