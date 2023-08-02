@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/User.js")
 const { hashPassword, comparePassword } = require("../utils/bcrypt.utils.js")
-const { mg } = require("../utils/mailgun.utils.js")
+// const { mg } = require("../utils/mailgun.utils.js")
 
 async function me (req, res) {
     try {
@@ -31,30 +31,30 @@ async function register(req, res) {
         })
 
         // Create verification token with email
-        const token = jwt.sign(
-            {
-                email: user.email
-            },
-            process.env.SECRET_KEY,
-            {
-                expiresIn: "1h"
-            }
-        )
+        // const token = jwt.sign(
+        //     {
+        //         email: user.email
+        //     },
+        //     process.env.SECRET_KEY,
+        //     {
+        //         expiresIn: "1h"
+        //     }
+        // )
 
         // Create email data
-        const data = {
-            from: "mailgun@" + process.env.MAILGUN_DOMAIN,
-            to: user.email,
-            subject: "Verify Your Account",
-            text: `Your token is ${token}`
-        }
+        // const data = {
+        //     from: "mailgun@" + process.env.MAILGUN_DOMAIN,
+        //     to: user.email,
+        //     subject: "Verify Your Account",
+        //     text: `Your token is ${token}`
+        // }
 
-        // Send email to user with verify link
-        await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
+        // // Send email to user with verify link
+        // await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
 
-        // Email Sent Success Message
+        // // Email Sent Success Message
         res.status(200).json({
-            message: "Email verification link sent",
+            // message: "Email verification link sent",
             user
         })
 
@@ -91,21 +91,21 @@ async function verifyEmail(req, res) {
             }
         )
     
-        // Send success message
-        res.send({
-            message: "Account Verified"
-        })
+        // // Send success message
+        // res.send({
+        //     message: "Account Verified"
+        // })
     
-        // Prepare email data
-        const data = {
-            from: "mailgun@" + process.env.MAILGUN_DOMAIN,
-            to: user.email,
-            subject: "Account Verified",
-            text: "Your account is now verified"
-        }
+        // // Prepare email data
+        // const data = {
+        //     from: "mailgun@" + process.env.MAILGUN_DOMAIN,
+        //     to: user.email,
+        //     subject: "Account Verified",
+        //     text: "Your account is now verified"
+        // }
     
-        // Send email to user
-        await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
+        // // Send email to user
+        // await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
     } catch (error) {
         res.status(500).json({error: error})
     }
@@ -189,19 +189,19 @@ async function forgotPassword(req, res) {
         )
 
         // Send email to the user with the reset token
-        const data = {
-            from: "mailgun@" + process.env.MAILGUN_DOMAIN,
-            to: email,
-            subject: "Reset Your Password",
-            text: `Token to reset password: ${token}`
-        }
+        // const data = {
+        //     from: "mailgun@" + process.env.MAILGUN_DOMAIN,
+        //     to: email,
+        //     subject: "Reset Your Password",
+        //     text: `Token to reset password: ${token}`
+        // }
         
-        // Send email to user
-        await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
+        // // Send email to user
+        // await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
 
         // Send success response
         res.status(200).json({
-            message: "Reset Password Email Sent "
+            message: "Reset Password Success "
         })
 
     } catch (error) {
