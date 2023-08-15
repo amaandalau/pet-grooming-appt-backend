@@ -1,7 +1,9 @@
 # Pet Grooming Appointment Booking System
 
-### **Brief Overview**
-The pet grooming appointment booking system is an application designed to facilitate the scheduling and management of pet grooming services. It serves as a centralized platform connecting pet owners, groomers and administrators to streamline the entire appointment booking process.
+<details>
+
+<summary> BRIEF OVERVIEW </summary>
+The pet grooming appointment booking system is an application designed to facilitate the scheduling and management of pet grooming services. It serves as a centralized platform connecting pet owners, groomers to streamline the entire appointment booking process.
 
 
 Pet owners can create an account by providing their personal information and details about their pets. They can view a list of available groomers, each with their specialization, experience and availability. The system allows pet owners to schedule appointments by selecting their preferred groomer, date and time slot.
@@ -20,7 +22,8 @@ Administrators have access to a dedicated dashboard where they can manage user a
 
 The pet grooming appointment booking system simplifies the process of finding and scheduling grooming services for pets.
 
-**** 
+</details>
+
 
 ## Features & Business Logics
 _to be added_
@@ -29,7 +32,7 @@ _to be added_
 
 ## Tech Stack Used
 <img src="https://img.icons8.com/?size=512&id=hsPbhkOH4FMe&format=png" alt="NodeJS Icon" height="100">
-<img src="https://o.remove.bg/downloads/0fa8fbdf-64d6-4a96-a0f1-1bc131962895/image-removebg-preview.png" alt="ExpressJS Icon" height="100">
+<img src="https://inapp.com/wp-content/uploads/elementor/thumbs/express-js-01-1-q05uw85vt1jqloiy5k82sfy7tgvysgt1uqld8slsbc.png" alt="ExpressJS Icon" height="100" style="background-color: #f0f0f0;">
 <img src="https://cdn.freebiesupply.com/logos/large/2x/sequelize-logo-png-transparent.png" alt="Sequelize Icon" height="100">
 <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" alt="Sequelize Icon" height="100">
 
